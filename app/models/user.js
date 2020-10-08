@@ -41,8 +41,25 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const userModel = mongoose.model("User", userSchema);
+const user = mongoose.model("User", userSchema);
 
-class UserModel {}
+class UserModel {
+  createUser(data, callback) {
+    let createUser = new user({
+      firstName: data.firstname,
+      lastName: data.lastname,
+      emailId: data.emailid,
+      password: data.password,
+    });
+    createUser.save((err, res) => {
+      if (err) {
+        callback(err);
+      }
+      if (res) {
+        callback(null, res);
+      }
+    });
+  }
+}
 
 module.exports = new UserModel();

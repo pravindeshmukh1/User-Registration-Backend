@@ -8,12 +8,18 @@
 
 const bodyParser = require("body-parser");
 const express = require("express");
+const expressValidator = require("express-validator");
+const routers = require("./routers/user");
 const app = express();
+
+app.use(expressValidator());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 const PORT = process.env.PORT || 3000;
 require("./config/dbConfig").databaseConnection();
 
+app.use(routers);
 app.use("/", (req, res) => {
   res.json("Welcome to the User Registration");
 });

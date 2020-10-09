@@ -8,6 +8,7 @@
 const userService = require("../service/user");
 
 class UserController {
+  
   async registerUser(req, res) {
     const resResult = {};
     try {
@@ -20,7 +21,7 @@ class UserController {
       if (errors) {
         resResult.error = errors;
         resResult.status = false;
-        res.status(400).send(resResult);
+        res.status(422).send(resResult);
       } else {
         let userData = {
           firstname: req.body.firstname,

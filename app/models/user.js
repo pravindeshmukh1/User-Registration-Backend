@@ -60,6 +60,19 @@ class UserModel {
       }
     });
   }
+
+  findOne(req) {
+    return new Promise((resolve, reject) => {
+      user
+        .findOne(req)
+        .then((data) => {
+          resolve(data);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
 }
 
 module.exports = new UserModel();

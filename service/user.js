@@ -10,15 +10,25 @@ const userModel = require("../app/models/user");
 
 class UserService {
   
-  createService(data) {
+  createService(req) {
     return new Promise((resolve, reject) => {
-      userModel.createUser(data, (err, result) => {
-        if (err) {
+      userModel
+        .findOne({ emailId: req.emailid })
+        .then((data) => {
+          if (data) {
+            reject({ message: "Already email register" });
+          } else
+            userModel.createUser(req, (err, result) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(result);
+              }
+            });
+        })
+        .catch((err) => {
           reject(err);
-        } else {
-          resolve(result);
-        }
-      });
+        });
     });
   }
 }

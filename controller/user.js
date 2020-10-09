@@ -8,7 +8,6 @@
 const userService = require("../service/user");
 
 class UserController {
-  
   async registerUser(req, res) {
     const resResult = {};
     try {
@@ -17,7 +16,6 @@ class UserController {
         req.check("emailid", "email id should be valid").isEmail(),
         req.check("password", "password should be valid").isLength({ min: 8 });
       let errors = await req.validationErrors();
-      let resResult = {};
       if (errors) {
         resResult.error = errors;
         resResult.status = false;

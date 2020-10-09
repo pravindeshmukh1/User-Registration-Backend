@@ -7,6 +7,7 @@
  *******************************************************************************************/
 
 const userModel = require("../app/models/user");
+const util = require("../utils/util");
 
 class UserService {
   
@@ -16,15 +17,29 @@ class UserService {
         .findOne({ emailId: req.emailid })
         .then((data) => {
           if (data) {
-            reject({ message: "Already email register" });
-          } else
-            userModel.createUser(req, (err, result) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve(result);
-              }
+            reject({
+              message: `Already '${data.emailId}' email register`,
+              status: false,
+              statusCode: 422,
             });
+          } else {
+            let hash = util.hashPassword(req.password);
+            hash.then((data) => {
+              let userData = {
+                firstname: req.firstname,
+                lastname: req.lastname,
+                emailid: req.emailid,
+                password: data,
+              };
+              userModel.createUser(userData, (err, result) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(result);
+                }
+              });
+            });
+          }
         })
         .catch((err) => {
           reject(err);

@@ -10,7 +10,6 @@ const userModel = require("../app/models/user");
 const util = require("../utils/util");
 
 class UserService {
-  
   createService(req) {
     return new Promise((resolve, reject) => {
       userModel
@@ -20,7 +19,7 @@ class UserService {
             reject({
               message: `Already '${data.emailId}' email register`,
               status: false,
-              statusCode: 422,
+              statusCode: 401,
             });
           } else {
             let hash = util.hashPassword(req.password);
@@ -45,6 +44,35 @@ class UserService {
           reject(err);
         });
     });
+  }
+
+  loginService(req, callback) {
+    const resResult = {};
+    userModel
+      .findOne({ emailId: req.emailid })
+      .then((data) => {
+        util.comparePassword(req.password, data.password, (err, result) => {
+          if (err) {
+            callback(err);
+          } else if (result) {
+            userModel.loginUser(data, (err, res) => {
+              if (err) callback(err);
+              else callback(null, res);
+            });
+          } else {
+            callback({
+              message: `Password Does not match`,
+              status: false,
+              statusCode: 401,
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        resResult.error = error;
+        resResult.message = "'User not found";
+        return res.status(422).send(resResult);
+      });
   }
 }
 module.exports = new UserService();

@@ -13,4 +13,14 @@ let hashPassword = (req) => {
   });
 };
 
-module.exports = { hashPassword };
+let comparePassword = (req, data, callback) => {
+  bcrypt.compare(req, data, (err, result) => {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, result);
+    }
+  });
+};
+
+module.exports = { hashPassword, comparePassword };

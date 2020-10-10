@@ -7,6 +7,7 @@
  *******************************************************************************************/
 
 const userModel = require("../app/models/user");
+const logger = require("../utils/logger");
 const util = require("../utils/util");
 
 class UserService {
@@ -19,7 +20,7 @@ class UserService {
             reject({
               message: `Already '${data.emailId}' email register`,
               status: false,
-              statusCode: 401,
+              statusCode: 409,
             });
           } else {
             let hash = util.hashPassword(req.password);
@@ -32,6 +33,7 @@ class UserService {
               };
               userModel.createUser(userData, (err, result) => {
                 if (err) {
+                  logger.error("User not create ");
                   reject(err);
                 } else {
                   resolve(result);
@@ -41,6 +43,7 @@ class UserService {
           }
         })
         .catch((err) => {
+          logger.error(err);
           reject(err);
         });
     });
@@ -60,6 +63,7 @@ class UserService {
               else callback(null, res);
             });
           } else {
+            logger.error("Login failed");
             callback({
               message: `Password Does not match`,
               status: false,
@@ -69,9 +73,8 @@ class UserService {
         });
       })
       .catch((error) => {
-        resResult.error = error;
-        resResult.message = "'User not found";
-        return res.status(422).send(resResult);
+        logger.error("User not found", error);
+        callback({ message: "User not found", status: false, statusCode: 401 });
       });
   }
 }

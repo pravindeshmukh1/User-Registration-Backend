@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const expressValidator = require("express-validator");
 const routers = require("./routers/user");
+const logger = require("./utils/logger");
 const app = express();
 
 app.use(expressValidator());
@@ -26,6 +27,6 @@ app.use("/", (req, res) => {
 
 app.listen(PORT, (err) => {
   if (err) throw err;
-  console.log(`Server is listen port no.${PORT}`);
+  logger.info(`Server is listen port no.${PORT}`);
 });
 module.exports = app;

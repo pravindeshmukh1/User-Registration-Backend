@@ -6,6 +6,7 @@
  * @since     : 08/10/2020
  ****************************************************************************************************************/
 const userService = require("../service/user");
+const logger = require("../utils/logger");
 
 class UserController {
   async registerUser(req, res) {
@@ -66,8 +67,10 @@ class UserController {
       };
       userService.loginService(loginData, (err, data) => {
         if (err) {
+          logger.error(err);
           return res.status(401).send(err);
         } else if (data) {
+          logger.info("Successfully Login User");
           resResult.message = "Successfully Login User";
           resResult.status = true;
           return res.status(200).send(resResult);

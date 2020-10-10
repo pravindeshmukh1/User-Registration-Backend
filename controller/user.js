@@ -7,6 +7,8 @@
  ****************************************************************************************************************/
 const userService = require("../service/user");
 const logger = require("../utils/logger");
+const authentication = require("../auth/auth");
+const cache = require("../utils/cache");
 
 class UserController {
   async registerUser(req, res) {
@@ -70,9 +72,25 @@ class UserController {
           logger.error(err);
           return res.status(401).send(err);
         } else if (data) {
+          let key = data.id + "loginSuccess";
+          let payload = {
+            id: data.id,
+            emailId: data.emailId,
+          };
+
+          let token = authentication.generateToken(payload);
+          cache.set(key, token, (err, success) => {
+            if (err) {
+              logger.error(err);
+            } else {
+              logger.info(success);
+            }
+          });
+
           logger.info("Successfully Login User");
           resResult.message = "Successfully Login User";
           resResult.status = true;
+          resResult.session = token;
           return res.status(200).send(resResult);
         }
       });

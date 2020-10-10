@@ -11,7 +11,10 @@ const express = require("express");
 const expressValidator = require("express-validator");
 const routers = require("./routers/user");
 const logger = require("./utils/logger");
+const cors = require("cors");
+
 const app = express();
+app.use(cors());
 
 app.use(expressValidator());
 app.use(bodyParser.json());

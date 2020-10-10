@@ -44,7 +44,6 @@ const userSchema = new mongoose.Schema(
 const user = mongoose.model("User", userSchema);
 
 class UserModel {
-  
   createUser(data, callback) {
     let createUser = new user({
       firstName: data.firstname,
@@ -77,7 +76,10 @@ class UserModel {
 
   loginUser(req, callback) {
     let response = {
-      emailId: req.emailid,
+      id: req._id,
+      firstname: req.firstName,
+      lastname: req.lastName,
+      emailid: req.emailId,
     };
     callback(null, response);
   }

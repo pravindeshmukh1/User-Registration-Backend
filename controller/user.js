@@ -75,9 +75,8 @@ class UserController {
           let key = data.id + "loginSuccess";
           let payload = {
             id: data.id,
-            emailId: data.emailId,
+            emailid: data.emailid,
           };
-
           let token = authentication.generateToken(payload);
           cache.set(key, token, (err, success) => {
             if (err) {
@@ -91,6 +90,7 @@ class UserController {
           resResult.message = "Successfully Login User";
           resResult.status = true;
           resResult.session = token;
+          resResult.response = data;
           return res.status(200).send(resResult);
         }
       });

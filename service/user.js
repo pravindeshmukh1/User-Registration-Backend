@@ -63,7 +63,6 @@ class UserService {
               else callback(null, res);
             });
           } else {
-            logger.error("Login failed");
             callback({
               message: `Password Does not match`,
               status: false,
@@ -73,7 +72,7 @@ class UserService {
         });
       })
       .catch((error) => {
-        logger.error("User not found", error);
+        logger.error(`User not found ${error}`);
         callback({ message: "User not found", status: false, statusCode: 401 });
       });
   }

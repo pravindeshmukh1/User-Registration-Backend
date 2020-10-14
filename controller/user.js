@@ -14,9 +14,9 @@ class UserController {
   async registerUser(req, res) {
     const resResult = {};
     try {
-      req.check("firstname", "firstname should be valid").isLength({ min: 3 }),
-        req.check("lastname", "lastname should be valid").isLength({ min: 3 }),
-        req.check("emailid", "email id should be valid").isEmail(),
+      req.check("firstName", "firstname should be valid").isLength({ min: 3 }),
+        req.check("lastName", "lastname should be valid").isLength({ min: 3 }),
+        req.check("emailId", "email id should be valid").isEmail(),
         req.check("password", "password should be valid").isLength({ min: 8 });
       let errors = await req.validationErrors();
       if (errors) {
@@ -25,9 +25,9 @@ class UserController {
         res.status(422).send(resResult);
       } else {
         let userData = {
-          firstname: req.body.firstname,
-          lastname: req.body.lastname,
-          emailid: req.body.emailid,
+          firstname: req.body.firstName,
+          lastname: req.body.lastName,
+          emailid: req.body.emailId,
           password: req.body.password,
         };
 
@@ -55,7 +55,7 @@ class UserController {
   async loginUser(req, res) {
     const resResult = {};
     try {
-      req.check("emailid", "email id should be valid").isEmail(),
+      req.check("emailId", "email id should be valid").isEmail(),
         req.check("password", "password should be valid").isLength({ min: 8 });
       let errors = await req.validationErrors();
       if (errors) {
@@ -64,7 +64,7 @@ class UserController {
         res.status(422).send(resResult);
       }
       let loginData = {
-        emailid: req.body.emailid,
+        emailid: req.body.emailId,
         password: req.body.password,
       };
       userService.loginService(loginData, (err, data) => {
@@ -94,9 +94,9 @@ class UserController {
           return res.status(200).send(resResult);
         }
       });
-    } catch (error) {
+    } catch (err) {
       resResult.success = false;
-      resResult.data = error;
+      resResult.data = err;
       res.status(404).send(resResult);
     }
   }

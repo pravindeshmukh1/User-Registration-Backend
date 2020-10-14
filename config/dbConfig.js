@@ -7,6 +7,7 @@
  *******************************************************************************************/
 
 const mongoose = require("mongoose");
+const logger = require("../utils/logger");
 require("dotenv").config();
 
 const dburl = process.env.MONGO_DB_URL;
@@ -21,10 +22,10 @@ exports.databaseConnection = () => {
       useCreateIndex: true,
     })
     .then(() => {
-      console.log("Database Connect..");
+      logger.log("info", "Database Connect..");
     })
     .catch((error) => {
-      console.error(`Database Connection Error:- ${error}`);
+      logger.log("error", `Database Connection Error:- ${error}`);
       process.exit();
     });
 };

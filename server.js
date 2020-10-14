@@ -30,6 +30,6 @@ app.use("/", (req, res) => {
 
 app.listen(PORT, (err) => {
   if (err) throw err;
-  logger.info(`Server is listen port no.${PORT}`);
+  logger.log("info", `Server is listen port no.${PORT}`);
 });
 module.exports = app;

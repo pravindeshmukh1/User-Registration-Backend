@@ -6,36 +6,21 @@
  * @since     : 10/10/2020
  ********************************************************************************************/
 
-const { createLogger, transports, format } = require("winston");
+const { transports, format } = require("winston");
+const winston = require("winston");
 
-const logger = createLogger({
+const logger = winston.createLogger({
   transports: [
-    new transports.Console({
-      level: "info",
-      handleExceptions: true,
-      colorize: true,
-      format: format.combine(format.timestamp(), format.json()),
-    }),
-    new transports.Console({
+    new winston.transports.File({
+      filename: "./logs/errorMessage.log",
       level: "error",
-      handleExceptions: true,
-      colorize: true,
-      format: format.combine(format.timestamp(), format.json()),
+      format: winston.format.json(),
     }),
 
-    new transports.File({
-      name: "info.log",
+    new winston.transports.File({
+      filename: "./logs/infoMessage.log",
       level: "info",
-      filename: "./logs/info.log",
-      handleExceptions: true,
-      format: format.combine(format.timestamp(), format.simple()),
-    }),
-    new transports.File({
-      name: "error.log",
-      level: "error",
-      filename: "./logs/error.log",
-      handleExceptions: true,
-      format: format.combine(format.timestamp(), format.simple()),
+      format: winston.format.json(),
     }),
   ],
 });

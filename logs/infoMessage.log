@@ -10,3 +10,11 @@
 {"level":"info","message":"Server is listen port no.3000"}
 {"message":"redis client connected","level":"info"}
 {"level":"info","message":"Database Connect.."}
+{"message":"Successfully Login User","level":"info"}
+{"message":"OK","level":"info"}
+{"level":"info","message":"Server is listen port no.3000"}
+{"message":"redis client connected","level":"info"}
+{"level":"info","message":"Database Connect.."}
+{"level":"info","message":"Server is listen port no.3000"}
+{"message":"redis client connected","level":"info"}
+{"level":"info","message":"Database Connect.."}
